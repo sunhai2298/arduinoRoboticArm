@@ -1,0 +1,286 @@
+#include <Servo.h>
+//第一个舵机110度在中间
+Servo servo1;  // 创建 Servo 对象
+Servo servo2;  // 创建 Servo 对象
+Servo servo3;
+Servo servo4;
+Servo servo5;
+Servo servo6;
+int d1=110,d2=5,d3=40,d4=100,d5=90,d6=1;//定义舵机初始值
+int in,arr,duoji,angle,shun;
+void setup() {//一共6个舵机
+  servo1.attach(8);  // 将 Servo 1 连接到数字引脚 8
+  servo2.attach(2);  // 将 Servo 2 连接到数字引脚 9
+  servo3.attach(3);
+  servo4.attach(9);
+  servo5.attach(10);
+  servo6.attach(11);
+ Serial.begin(9600);
+  servo1.write(d1);//调角度程序
+  servo2.write(d2);
+  servo3.write(d3);
+  servo4.write(d4);
+  servo5.write(d5);
+  servo6.write(d6);
+}
+int stop()//停止循环的函数
+{
+  for(int i=0;;i++)
+  {
+      Serial.println("stop");
+      delay(100000);
+  }
+}
+int wei[6];//对输入做成数组
+
+
+int duqu()//从串口读取数据//读取数据然后拆分成duoji和angle分别代表几号舵机和舵机角度
+{
+    angle=0;//初始化角度
+    if (Serial.available() > 0) { // 如果有数据可供读取
+     for(int i=0;i<=1;i++)
+     {
+     Serial.println("请输入舵机型号与角度：");
+     delay(10);
+     in = Serial.parseInt();//读取串口数据例如1113：意思是1号舵机旋转到113度，61为6号舵机旋转到1度
+     delay(10);
+     if(in==0)
+     {
+       in=arr;
+     }
+     arr=in;//这里由于串口会来回读取，第二次会读取零，所以把第二次的零赋值成上一次的值
+     }
+      Serial.print("in：");
+      Serial.println(in);
+  }
+    int arr=in;
+    int ans=0;
+    while(arr!=0)//检查几位数字和几位数
+    {
+      arr/=10;
+      ans++;
+    }
+    int arr2=in;
+    for(int i=1;i<=ans;i++)//把每一个数字放到数组里第一个数组放个位
+    {
+      wei[i]=arr2%10;
+      arr2/=10;
+    }
+    duoji=wei[ans];//最后一位数是舵机
+    ans-=1;//位数减2，减去舵机和顺序剩下的是角度
+    for(int i=ans;i>1;i--)//从数组中计算角度
+    {
+       angle+=wei[i];
+       angle*=10;
+    }
+   
+}
+
+//每一个舵机都有一个函数，这里写的没什么技术含量，每一个舵机的函数都一样，重复了6个舵机，凑活用。
+int duoji1()
+{
+ if(d1>angle)
+  {
+    for(int i=d1;i>=angle;i--)
+  {
+    servo1.write(i);
+    delay(30);
+    if(i==angle)
+    {
+      break;
+    }
+  }
+  }
+  if(d1<angle)
+  {
+    for(int i=d1;i<=angle;i++)
+    {
+    servo1.write(i);
+      delay(30);
+      if(i==angle)
+      {
+        break;
+      }
+    }
+  }
+}
+int duoji2()
+{
+ if(d2>angle)
+  {
+    for(int i=d2;i>=angle;i--)
+  {
+    servo2.write(i);
+    delay(30);
+    if(i==angle)
+    {
+      break;
+    }
+  }
+  }
+  if(d2<angle)
+  {
+    for(int i=d2;i<=angle;i++)
+    {
+    servo2.write(i);
+      delay(30);
+      if(i==angle)
+      {
+        break;
+      }
+    }
+  }
+}
+int duoji3()
+{
+ if(d3>angle)
+  {
+    for(int i=d3;i>=angle;i--)
+  {
+    servo3.write(i);
+    delay(30);
+    if(i==angle)
+    {
+      break;
+    }
+  }
+  }
+  if(d3<angle)
+  {
+    for(int i=d3;i<=angle;i++)
+    {
+    servo3.write(i);
+      delay(30);
+      if(i==angle)
+      {
+        break;
+      }
+    }
+  }
+}
+int duoji4()
+{
+ if(d4>angle)
+  {
+    for(int i=d4;i>=angle;i--)
+  {
+    servo4.write(i);
+    delay(30);
+    if(i==angle)
+    {
+      break;
+    }
+  }
+  }
+  if(d4<angle)
+  {
+    for(int i=d4;i<=angle;i++)
+    {
+    servo4.write(i);
+      delay(30);
+      if(i==angle)
+      {
+        break;
+      }
+    }
+  }
+}
+int duoji5()
+{
+ if(d5>angle)
+  {
+    for(int i=d5;i>=angle;i--)
+  {
+    servo5.write(i);
+    delay(30);
+    if(i==angle)
+    {
+      break;
+    }
+  }
+  }
+  if(d5<angle)
+  {
+    for(int i=d5;i<=angle;i++)
+    {
+    servo5.write(i);
+      delay(30);
+      if(i==angle)
+      {
+        break;
+      }
+    }
+  }
+}
+int duoji6()
+{
+ if(d6>angle)
+  {
+    for(int i=d6;i>=angle;i--)
+  {
+    servo6.write(i);
+    delay(30);
+    if(i==angle)
+    {
+      break;
+    }
+  }
+  }
+  if(d6<angle)
+  {
+    for(int i=d1;i<=angle;i++)
+    {
+    servo6.write(i);
+      delay(30);
+      if(i==angle)
+      {
+        break;
+      }
+    }
+  }
+}
+void loop() {
+  switch(duoji)//把原来的角度赋值给舵机，这个一定要有，就是把上一次舵机的角度赋值给现在，也就是现在的角度。
+  {
+          case 1:
+      d1=angle;
+      break;
+          case 2:
+      d2=angle;
+      break;
+          case 3:
+      d3=angle;
+      break;
+          case 4:
+      d4=angle;
+      break;
+          case 5:
+      d5=angle;
+      break;
+          case 6:
+      d6=angle;
+      break;
+  }
+  duqu();//读取函数，输出相应的舵机和角度
+  switch(duoji)
+  {
+              case 1:
+      duoji1();
+      break;
+          case 2:
+      duoji2();
+      break;
+          case 3:
+      duoji3();
+      break;
+          case 4:
+      duoji4();
+      break;
+          case 5:
+      duoji5();
+      break;
+          case 6:
+      duoji6();
+      break;
+  }
+}
